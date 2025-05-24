@@ -1,3 +1,4 @@
+from posixpath import split
 from sqlalchemy import (
     create_engine, Column, Integer, String, Text, ForeignKey, DateTime, Enum
 )
@@ -24,9 +25,10 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     correo = Column(String(100), unique=True, nullable=False)
-    password_hash = Column(Text, nullable=False)
+    password_hash = Column(String(1000), nullable=False)
     rol = Column(Enum("admin", "normal", name="user_roles"), nullable=False)
     estatus = Column(String(20), default="activo")
+    username = Column(String(25), nullable=False)
 
     tickets_creados = relationship("Ticket", back_populates="usuario_owner", foreign_keys='Ticket.usuario_id')
     tickets_asignados = relationship("Ticket", back_populates="consultor_asignado", foreign_keys='Ticket.consultor_id')
