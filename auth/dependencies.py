@@ -41,3 +41,8 @@ def is_normal_user(token : str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Los administradores no puede crear tickets")
     
     return data
+
+def is_user(token : str = Depends(oauth2_scheme)):
+    data = jwt.decode(token, SECRET_KEY, ALGORITHM)
+    
+    return data
