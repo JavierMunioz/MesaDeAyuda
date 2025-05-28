@@ -46,3 +46,10 @@ def is_user(token : str = Depends(oauth2_scheme)):
     data = jwt.decode(token, SECRET_KEY, ALGORITHM)
     
     return data
+
+
+def create_refresh_token(data: dict, expires_delta: timedelta = timedelta(days=7)):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
